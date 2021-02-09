@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="com.spring.tutorial" />
+
+	<bean id="helloSpring" class="com.spring.tutorial.HelloSpring">
+		<property name="message" value="Welcome To Spring" />
+	</bean>
+
+	<bean id="constructorInjection"
+		class="com.spring.tutorial.SpringConstructorInjection">
+		<!-- <property name="showInjectedValues" value="Welcome To Spring" /> this 
+			is for a method -->
+		<constructor-arg name="name" value="Makgabo" index="1" /> <!-- the index tells the order in the constructor parameters -->
+		<constructor-arg name="id" value="59" type="int"
+			index="0" /> <!-- default type is string, for any other type, please specify -->
+		<!-- if you omit the names of the fields, then you must give them in order 
+			from the constructor -->
+
+
+	</bean>
+
+	<bean id="springMessage" class="com.spring.tutorial.SpringMessage"
+		scope="prototype">
+		<!-- the default scope is : singleton: this means one object for the entire 
+			session. prototype scope means that every time we call the method, the new 
+			instance of the bean will be created -->
+
+	</bean>
+
+	<bean id="lifecycleExample"
+		class="com.spring.tutorial.LifecycleExample"
+		init-method="onInitiation" destroy-method="onDestroy">
+
+	</bean>
+
+	<bean id="setterInjectionExample"
+		class="com.spring.tutorial.SetterInjectionExample">
+		<property name="id" value="32" />
+		<property name="name" value="Mathekga" />
+
+	</bean>
+
+	<!-- injecting a bean into another bean, use key word: "ref" followed by 
+		the id of the bean -->
+	<!-- <bean id="playInstrument" class="com.spring.tutorial.PlaysInstrument"> 
+		<constructor-arg ref="piano" /> </bean> -->
+
+	<!-- <bean id="playInstru" class="com.spring.tutorial.PlaysInstrument"> 
+		<constructor-arg> <bean id="drums" class="com.spring.tutorial.Drum" /> </constructor-arg> 
+		</bean> <bean id="drum" class="com.spring.tutorial.Drum"></bean> <bean id="piano" 
+		class="com.spring.tutorial.Piano"></bean> -->
+
+	<!-- this bean is only visible to the parent bean -->
+
+	<bean id="collectionExample"
+		class="com.spring.tutorial.CollectionExample">
+		<property name="integerList">
+			<list>
+				<value>900</value>
+				<value>316</value>
+				<value>557</value>
+				<value>821</value>
+				<value>650</value>
+			</list>
+		</property>
+
+		<property name="integerSet">
+			<set>
+				<value>330</value>
+				<value>350</value>
+				<value>450</value>
+				<value>550</value>
+				<value>550</value>
+			</set>
+		</property>
+
+		<property name="map">
+			<map>
+				<entry key="key1" value="330" />
+				<entry key="key2" value="900" />
+				<entry key="key3" value="840" />
+				<entry key="key4" value="1600" />
+				<entry key="key5" value="2500" />
+			</map>
+		</property>
+
+	</bean>
+
+
+	<!-- auto-wiring (NB: byName) in spring beans -->
+
+
+	<bean id="ment" class="com.spring.tutorial.PlaysInstrument"
+		autowire="byType" /> <!-- autowire byname simply means the injected bean should have same id as 
+		the variable in the parent class autowire byname - you can only wire one 
+		bean -->
+
+	<!-- autowire bytype simply means the injected bean should have same type 
+		as the variable in the parent class autowire name - you can wire as many 
+		beans as you want -->
+
+
+
+	<!-- autowire byname simply means the injected bean should have same id 
+		as the variable in the parent class autowire byname - you can only wire one 
+		bean -->
+
+	<bean id="drum" class="com.spring.tutorial.Piano"
+		autowire-candidate="false" />
+
+	<!-- autowire-candidate="false" : this attribute makes sure this bean is 
+		not selected as the default one -->
+
+
+	<bean id="annotations"
+		class="com.spring.tutorial.AnnotationExample" />
+
+	<bean id="piano" class="com.spring.tutorial.Piano" />
+
+	<!-- <bean id="adrum" class="com.spring.tutorial.Drum" /> -->
+
+	<!-- Spring AOP -->
+	<bean id="aopExample" class="com.spring.tutorial.AOPExample">
+		<property name="id" value="56" />
+		<property name="name" value="Makgabo" />
+	</bean>
+
+	<bean id="beforeAdvise"
+		class="com.spring.tutorial.BeforeAdviseExample" />
+
+	<bean id="aopexample"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="aopExample" />
+		<property name="interceptorNames">
+			<list>
+				<value>beforeAdvise</value>
+			</list>
+		</property>
+	</bean>
+
+
+
+
+
+</beans>
